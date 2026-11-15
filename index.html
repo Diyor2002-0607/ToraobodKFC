@@ -260,7 +260,7 @@
     ichimliklar:[{id:'pepsi15',name:'Pepsi 1,5 l',price:12000,emoji:'🥤'},{id:'cola15',name:'Coca-Cola 1,5 l',price:13000,emoji:'🥤'},{id:'fanta15',name:'Fanta 1,5 l',price:12000,emoji:'🍊'},{id:'pepsi05',name:'Pepsi 0,5 l',price:6000,emoji:'🥤'},{id:'suv',name:'Mineral suv 1,5 l',price:4000,emoji:'💧'},{id:'kofe',name:'Kofe (1 stakan)',price:5000,emoji:'☕'}]
   };
   const ITEMS=Object.values(MENU).flat().reduce((m,it)=>(m[it.id]=it,m),{});
-  const fmt=n=>String(n).replace(/\\B(?=(\\d{3})+(?!\\d))/g,' ')+' so‘m';
+  const fmt=n=>String(n).replace(/\B(?=(\d{3})+(?!\d))/g,' ')+' so‘m';
   let cart={}; try{cart=JSON.parse(localStorage.getItem('kfc-cart'))||{}}catch(e){}
   Object.keys(cart).forEach(id=>{if(!ITEMS[id]||!Number.isInteger(cart[id])||cart[id]<1)delete cart[id]});
   const menuList=document.getElementById('menuList'),tabs=document.querySelectorAll('.tab'),cardsOpen=document.querySelectorAll('.card[data-open]');
@@ -302,7 +302,7 @@
   orderBtn.addEventListener('click',()=>{
     const list=cartEntries();document.getElementById('orderList').innerHTML=list.map(it=>`<li><span>${it.name} × ${it.qty}</span><span>${fmt(it.price*it.qty)}</span></li>`).join('');
     document.getElementById('orderTotal').textContent=fmt(cartTotal());
-    const message='Assalomu alaykum! Buyurtma:\\n'+list.map(it=>`${it.name} × ${it.qty} = ${fmt(it.price*it.qty)}`).join('\\n')+`\\nJami: ${fmt(cartTotal())}`;
+    const message='Assalomu alaykum! Buyurtma:\n'+list.map(it=>`${it.name} × ${it.qty} = ${fmt(it.price*it.qty)}`).join('\n')+`\nJami: ${fmt(cartTotal())}`;
     document.getElementById('smsBtn').href='sms:+998933277202?body='+encodeURIComponent(message);
     modal.classList.add('open');document.body.style.overflow='hidden';
   });
