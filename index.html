@@ -255,9 +255,9 @@
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   document.getElementById('year').textContent=new Date().getFullYear();
   const MENU={
-    taomlar:[{id:'kfc-1kg',name:'KFC 1 kg',price:25000,emoji:'🍗'},{id:'kfc-05kg',name:'KFC 0,5 kg',price:12000,emoji:'🍗'},{id:'kfc-025kg',name:'KFC 0,25 kg',price:6500,emoji:'🍗'},{id:'fri',name:'Kartoshka fri',price:8000,emoji:'🍟'},{id:'sous',name:'Sous (ketchup / mayonez)',price:2000,emoji:'🥫'},{id:'non-kfc',name:'Non (lavash)',price:3000,emoji:'🫓'}],
+    taomlar:[{id:'kfc-1kg',name:'KFC 1 kg',price:90000,emoji:'🍗'},{id:'kfc-05kg',name:'KFC 0,5 kg',price:45000,emoji:'🍗'},{id:'kfc-025kg',name:'KFC 0,25 kg',price:22500,emoji:'🍗'},{id:'hotdog',name:'Xot-dog',price:10000,emoji:'🌭'},{id:'fri',name:'Kartoshka fri',price:8000,emoji:'🍟'},{id:'sous',name:'Sous (ketchup / mayonez)',price:2000,emoji:'🥫'},{id:'non-kfc',name:'Non (lavash)',price:3000,emoji:'🫓'}],
     market:[{id:'non',name:'Non',price:3000,emoji:'🍞'},{id:'sut',name:'Sut 1 l',price:12000,emoji:'🥛'},{id:'tuxum',name:'Tuxum 10 dona',price:15000,emoji:'🥚'},{id:'shakar',name:'Shakar 1 kg',price:13000,emoji:'🍬'},{id:'guruch',name:'Guruch 1 kg',price:16000,emoji:'🍚'},{id:'yog',name:'O‘simlik yog‘i 1 l',price:20000,emoji:'🫒'}],
-    ichimliklar:[{id:'pepsi15',name:'Pepsi 1,5 l',price:12000,emoji:'🥤'},{id:'cola15',name:'Coca-Cola 1,5 l',price:13000,emoji:'🥤'},{id:'fanta15',name:'Fanta 1,5 l',price:12000,emoji:'🍊'},{id:'pepsi05',name:'Pepsi 0,5 l',price:6000,emoji:'🥤'},{id:'suv',name:'Mineral suv 1,5 l',price:4000,emoji:'💧'}]
+    ichimliklar:[{id:'pepsi15',name:'Pepsi 1,5 l',price:12000,emoji:'🥤'},{id:'cola15',name:'Coca-Cola 1,5 l',price:13000,emoji:'🥤'},{id:'fanta15',name:'Fanta 1,5 l',price:12000,emoji:'🍊'},{id:'pepsi05',name:'Pepsi 0,5 l',price:6000,emoji:'🥤'},{id:'suv',name:'Mineral suv 1,5 l',price:4000,emoji:'💧'},{id:'kofe',name:'Kofe (1 stakan)',price:5000,emoji:'☕'}]
   };
   const ITEMS=Object.values(MENU).flat().reduce((m,it)=>(m[it.id]=it,m),{});
   const fmt=n=>String(n).replace(/\\B(?=(\\d{3})+(?!\\d))/g,' ')+' so‘m';
