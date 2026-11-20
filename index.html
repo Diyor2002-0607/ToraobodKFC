@@ -163,6 +163,18 @@
     .order-note { color:var(--muted); font-size:.92rem; margin:18px 0 12px }
     .order-phone { display:block; text-align:center; font-family:"Playfair Display",serif; font-size:clamp(1.6rem,6vw,2.1rem); font-weight:900; margin-bottom:18px }
     .modal-actions { display:grid; gap:10px }
+    .order-form { display:grid; gap:14px; margin-top:20px }
+    .field { display:grid; gap:6px } .field span { font-size:.88rem; font-weight:700; color:var(--muted) }
+    .field input,.field textarea { font:inherit; width:100%; padding:13px 16px; border-radius:14px; background:var(--black); color:var(--text); border:1px solid var(--line); transition:border-color .25s }
+    .field textarea { resize:vertical; min-height:84px }
+    .field input:focus,.field textarea:focus { outline:none; border-color:var(--gold) }
+    .hp { position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden }
+    button.btn-outline { border:1px solid var(--gold) }
+    .order-form[hidden],.order-result[hidden],.form-error[hidden] { display:none }
+    .form-error { color:#ff8a7a; font-size:.92rem; font-weight:600 }
+    .order-result { text-align:center; padding:10px 0 4px } .order-result .big { font-size:2.6rem; display:block; margin-bottom:6px }
+    .order-result h4 { font-family:"Playfair Display",serif; font-size:1.5rem; margin-bottom:8px }
+    .order-result p { color:var(--muted); margin-bottom:14px }
     .toast { position:fixed; left:50%; top:92px; z-index:110; transform:translate(-50%,-20px); opacity:0; pointer-events:none; padding:12px 20px; border-radius:999px; background:var(--grad); color:#111; font-weight:800; transition:all .3s; box-shadow:0 12px 30px -10px rgba(212,175,55,.7); white-space:nowrap }
     .toast.show { opacity:1; transform:translate(-50%,0) }
     .reveal { opacity:0; transform:translateY(28px); transition:opacity .8s,transform .8s } .reveal.visible { opacity:1; transform:none }
@@ -240,8 +252,16 @@
 <div class="modal" id="orderModal" role="dialog" aria-modal="true" aria-labelledby="orderTitle"><div class="modal-box">
   <button class="modal-close" id="modalClose" aria-label="Yopish">✕</button><span class="eyebrow">Buyurtma</span><h3 id="orderTitle">Buyurtma <span class="gold-text">ro‘yxati</span></h3>
   <ul class="order-list" id="orderList"></ul><div class="order-total"><span>Jami:</span><span id="orderTotal">0 so‘m</span></div><div class="order-total" style="font-size:.95rem;font-weight:600;color:var(--muted)"><span>Yetkazib berish:</span><span style="color:var(--gold)">Bepul</span></div>
-  <p class="order-note">Buyurtmani tasdiqlash uchun quyidagi raqamga qo‘ng‘iroq qiling yoki SMS yuboring:</p><a href="tel:+998933277202" class="order-phone gold-text">+998 93 327 72 02</a>
-  <div class="modal-actions"><a href="tel:+998933277202" class="btn btn-gold">📞 Qo‘ng‘iroq qilish</a><a href="sms:+998933277202" class="btn btn-outline" id="smsBtn">✉️ Buyurtmani SMS orqali yuborish</a></div>
+  <form class="order-form" id="orderForm" novalidate>
+    <label class="field"><span>Ismingiz</span><input name="name" id="fName" type="text" autocomplete="name" minlength="2" maxlength="50" required placeholder="Masalan: Aziz" /></label>
+    <label class="field"><span>Telefon raqamingiz</span><input name="phone" id="fPhone" type="tel" autocomplete="tel" inputmode="tel" maxlength="20" required placeholder="+998 90 123 45 67" /></label>
+    <label class="field"><span>Manzil yoki izoh</span><textarea name="address" id="fAddress" minlength="3" maxlength="300" required placeholder="Ko‘cha, uy raqami yoki qo‘shimcha izoh"></textarea></label>
+    <label class="hp" aria-hidden="true">Veb-sayt<input name="website" id="fWebsite" type="text" tabindex="-1" autocomplete="off" /></label>
+    <p class="form-error" id="formError" role="alert" hidden></p>
+    <div class="modal-actions"><button type="submit" class="btn btn-gold" id="sendBtn">📨 Yuborish</button></div>
+  </form>
+  <div class="order-result" id="orderSuccess" hidden><span class="big">✅</span><h4>Rahmat! Buyurtmangiz qabul qilindi</h4><p>Tez orada siz bilan bog‘lanamiz.</p><div class="modal-actions"><button type="button" class="btn btn-gold" id="successClose">Yopish</button></div></div>
+  <div class="order-result" id="orderFail" hidden><span class="big">⚠️</span><h4>Buyurtmani yuborib bo‘lmadi</h4><p>Iltimos, buyurtma berish uchun qo‘ng‘iroq qiling:</p><a href="tel:+998933277202" class="order-phone gold-text">+998 93 327 72 02</a><div class="modal-actions"><a href="tel:+998933277202" class="btn btn-gold">📞 Qo‘ng‘iroq qilish</a><button type="button" class="btn btn-outline" id="retryBtn">🔄 Qayta urinish</button></div></div>
 </div></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <a href="tel:+998933277202" class="fab" aria-label="Qo‘ng‘iroq qilish"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z"/></svg></a>
@@ -302,11 +322,38 @@
   orderBtn.addEventListener('click',()=>{
     const list=cartEntries();document.getElementById('orderList').innerHTML=list.map(it=>`<li><span>${it.name} × ${it.qty}</span><span>${fmt(it.price*it.qty)}</span></li>`).join('');
     document.getElementById('orderTotal').textContent=fmt(cartTotal());
-    const message='Assalomu alaykum! Buyurtma:\n'+list.map(it=>`${it.name} × ${it.qty} = ${fmt(it.price*it.qty)}`).join('\n')+`\nJami: ${fmt(cartTotal())}`;
-    document.getElementById('smsBtn').href='sms:+998933277202?body='+encodeURIComponent(message);
+    showStep('form');formError.hidden=true;openedAt=Date.now();
     modal.classList.add('open');document.body.style.overflow='hidden';
   });
   const closeModal=()=>{modal.classList.remove('open');document.body.style.overflow=''};
+  const orderForm=document.getElementById('orderForm'),formError=document.getElementById('formError'),sendBtn=document.getElementById('sendBtn'),okBox=document.getElementById('orderSuccess'),failBox=document.getElementById('orderFail');
+  let openedAt=0,sending=false;
+  function showStep(step){orderForm.hidden=step!=='form';okBox.hidden=step!=='ok';failBox.hidden=step!=='fail';const box=(step==='ok'?okBox:step==='fail'?failBox:null);if(box)box.scrollIntoView({block:'nearest'})}
+  function formFail(msg,el){formError.textContent=msg;formError.hidden=false;if(el)el.focus()}
+  orderForm.addEventListener('submit',async e=>{
+    e.preventDefault();if(sending)return;
+    const f=orderForm.elements,name=f.name.value.trim(),phone=f.phone.value.trim(),address=f.address.value.trim(),digits=phone.replace(/\D/g,'');
+    const items=cartEntries().map(it=>({name:it.name,qty:it.qty,price:it.price}));
+    if(!items.length)return formFail('Savat bo‘sh.');
+    if(name.length<2||name.length>50)return formFail('Ismingizni kiriting (2–50 belgi).',f.name);
+    if(phone.length>20||!/^[+\d\s()-]+$/.test(phone)||digits.length<9||digits.length>12)return formFail('Telefon raqamini to‘g‘ri kiriting, masalan: +998 90 123 45 67.',f.phone);
+    if(address.length<3||address.length>300)return formFail('Manzil yoki izohni kiriting (3–300 belgi).',f.address);
+    let last=0;try{last=+localStorage.getItem('kfc-last-order')||0}catch(_){}
+    if(Date.now()-last<60000)return formFail('Buyurtma yaqinda yuborildi. Iltimos, 1 daqiqadan so‘ng qayta urinib ko‘ring.');
+    formError.hidden=true;sending=true;sendBtn.disabled=true;sendBtn.textContent='⏳ Yuborilmoqda...';
+    try{
+      const wait=3200-(Date.now()-openedAt);if(wait>0)await new Promise(r=>setTimeout(r,wait));
+      const res=await fetch('/api/order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,phone,address,items,website:f.website.value,elapsed:Date.now()-openedAt})});
+      const out=await res.json().catch(()=>({}));
+      if(res.status===400&&out.error){formFail(out.error);return}
+      if(!res.ok||!out.ok)throw new Error(out.error||res.status);
+      try{localStorage.setItem('kfc-last-order',String(Date.now()))}catch(_){}
+      cart={};saveCart();orderForm.reset();showStep('ok');
+    }catch(err){showStep('fail')}
+    finally{sending=false;sendBtn.disabled=false;sendBtn.textContent='📨 Yuborish'}
+  });
+  document.getElementById('successClose').addEventListener('click',closeModal);
+  document.getElementById('retryBtn').addEventListener('click',()=>showStep('form'));
   document.getElementById('modalClose').addEventListener('click',closeModal);
   modal.addEventListener('click',e=>{if(e.target===modal)closeModal()});
   document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
